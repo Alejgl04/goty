@@ -1,1 +1,39 @@
-<p>goty works!</p>
+<h2 class="text-center"> Vote for game of the year </h2>
+<hr>
+<div class="row text-center" *ngIf="loading">
+  <div class="col">
+    <div class="spinner-grow" role="status">
+      <span class="sr-only">Loading...</span>
+    </div>
+  </div>
+</div>
+
+<div class="row row-cols-1 row-cols-md-3" *ngIf="!loading">
+  <div class="col mb-4" *ngFor="let game of games">
+    <div class="card bg-dark">
+      <img [src]="game.url" class="card-img-top" [alt]="game.name">
+      <div class="card-body">
+        <h5 class="card-title">{{game.name}}</h5>
+        <p class="card-text">click here to vote for the game</p>
+        <button class="btn btn-block btn-outline-primary" (click)="voteGame( game )">
+          Vote
+        </button>
+      </div>
+    </div>
+  </div>
+
+<!-- <div class="row" *ngIf="!loading">
+  <div class="">
+    <div class="card bg-dark col-md-3" *ngFor="let game of games">
+      <img [src]="game.url" class="card-img-top" [alt]="game.name">
+      <div class="card-body">
+        <h5 class="card-title">{{game.name}}</h5>
+        <p class="card-text">click here to vote for the game</p>
+
+        <button class="btn btn-block btn-outline-primary" (click)="voteGame( game )">
+          Vote
+        </button>
+      </div>
+    </div>
+  </div>
+</div> -->
