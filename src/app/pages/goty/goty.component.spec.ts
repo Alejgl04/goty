@@ -1,3 +1,4 @@
+import { HttpClientModule } from '@angular/common/http';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { GotyComponent } from './goty.component';
@@ -8,7 +9,10 @@ describe('GotyComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ GotyComponent ]
+      declarations: [ GotyComponent ],
+      imports: [
+        HttpClientModule,
+      ],
     })
     .compileComponents();
   });
