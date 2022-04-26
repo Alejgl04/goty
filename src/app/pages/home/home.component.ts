@@ -1,7 +1,6 @@
-import { Component, OnInit } from '@angular/core';
-import { Goty } from 'src/app/interfaces/goty.interfaces';
+import { Component, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { GameService } from 'src/app/services/game.service';
-import * as Rx from "rxjs";
+import { WebsocketService } from 'src/app/services/websocket.service';
 
 @Component({
   selector: 'app-home',
@@ -9,16 +8,29 @@ import * as Rx from "rxjs";
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit {
-  games: Goty[] = [];
+  games: any[] = [];
 
   constructor(
-    private gameService: GameService
+    private gameService: GameService,
+    private wsSevice:WebsocketService
+
   ) { }
 
   ngOnInit(): void {
     this.gameService.getGotyHome().subscribe( (resp) => {
       console.log( resp );
-      // this.games = resp;
-    })
+      this.games = resp;
+      this.listenScoket();
+
+    });
+  }
+
+  listenScoket() {
+    this.wsSevice.listen('change-graphic').subscribe(
+      (resp:any) => {
+        console.log('socket', resp);
+        this.games = resp
+      }
+    )
   }
 }

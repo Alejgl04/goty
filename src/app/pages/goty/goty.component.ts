@@ -29,14 +29,14 @@ export class GotyComponent implements OnInit {
       if( resp.ok ) {
         Swal.fire(
           'Game Of the Year',
-          resp.message,
+          'Thanks for voting for the game of the year',
           'success'
         )
       }
       else {
         Swal.fire(
           'Oops',
-          resp.message,
+          'Ocurrio un error, pruebe de nuevo',
           'error'
         )
       }

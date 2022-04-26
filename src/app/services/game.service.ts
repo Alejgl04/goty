@@ -14,21 +14,30 @@ export class GameService {
     ) { }
     
     getGoty() {
-      return this.http.get<{goty:Goty[]}>(`${ environment.url }/api/goty`);
+      return this.http.get<{goty:Goty[]}>(`${ environment.url }/goty`);
     }
 
     getGotyHome() {
-      return this.http.get<{goty:Goty[]}>(`${ environment.url }/api/goty`).pipe(
+      return this.http.get<{goty:Goty[]}>(`${ environment.url }/goty`).pipe(
         map( ( resp ) =>{
-          return resp.goty.map( ({ name, votos }) => ({ name, values:votos }))
+          return resp.goty.map( ({ name, votos }) => ({ name, value:votos }))
         })
       );
     }
 
     voteGame( id:string ) {
-      return this.http.post<MessageGoty>(`${ environment.url }/api/goty/${id}`, {}).pipe(
+      return this.http.post<MessageGoty>(`${ environment.url }/goty/${id}`, {}).pipe(
         catchError( err => {
           return of( err.error)
+        })
+      )
+    }
+
+    voteGameSocket( id:string ) {
+      return this.http.post<{goty:Goty[]}>(`${ environment.url }/goty/${id}`, {}).pipe(
+        map( ( resp ) =>{
+          console.log('respservice', resp)
+          return resp.goty.map( ({ name, votos }) => ({ name, value:votos }))
         })
       )
     }

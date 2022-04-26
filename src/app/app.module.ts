@@ -2,12 +2,18 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule } from '@angular/common/http'
 import { AppRoutingModule } from './app-routing.module';
-import { AppComponent } from './app.component';
 
+import { SocketIoModule, SocketIoConfig } from 'ngx-socket-io';
+
+const config: SocketIoConfig = { url:`${environment.url}`, options: {} };
+
+import { AppComponent } from './app.component';
 import { ComponentesModule } from './components/componentes.module';
 
 import { HomeComponent } from './pages/home/home.component';
 import { GotyComponent } from './pages/goty/goty.component';
+import { environment } from 'src/environments/environment';
+
 
 @NgModule({
   declarations: [
@@ -19,8 +25,8 @@ import { GotyComponent } from './pages/goty/goty.component';
     BrowserModule,
     AppRoutingModule,
     ComponentesModule,
-    HttpClientModule
-    
+    HttpClientModule,
+    SocketIoModule.forRoot(config),
   ],
   providers: [],
   bootstrap: [AppComponent]
