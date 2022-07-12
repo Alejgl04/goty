@@ -9,7 +9,7 @@ import { WebsocketService } from 'src/app/services/websocket.service';
 })
 export class HomeComponent implements OnInit {
   games: any[] = [];
-
+  loading: boolean = false;
   constructor(
     private gameService: GameService,
     private wsSevice:WebsocketService
@@ -17,8 +17,9 @@ export class HomeComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    this.loading = true;
     this.gameService.getGotyHome().subscribe( (resp) => {
-      console.log( resp );
+      this.loading = false;
       this.games = resp;
       this.listenScoket();
 
@@ -28,6 +29,7 @@ export class HomeComponent implements OnInit {
   listenScoket() {
     this.wsSevice.listen('change-graphic').subscribe(
       (resp:any) => {
+
         console.log('socket', resp);
         this.games = resp
       }
