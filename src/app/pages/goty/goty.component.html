@@ -15,9 +15,9 @@
       <div class="card-body">
         <h5 class="card-title">{{game.name}}</h5>
         <p class="card-text">click here to vote for the game</p>
-        <button class="btn btn-block btn-outline-primary" (click)="voteGame( game )">
-          Vote
-        </button>
+        <div class="example-button-row">
+          <button class="save-register btn btn-block" mat-raised-button color="primary" (click)="voteGame( game )">Vote</button>
+        </div>
       </div>
     </div>
   </div>
