@@ -1,0 +1,31 @@
+.example-container .mat-form-field + .mat-form-field {
+  margin-left: 8px;
+}
+
+.example-right-align {
+  text-align: right;
+}
+
+input.example-right-align::-webkit-outer-spin-button,
+input.example-right-align::-webkit-inner-spin-button {
+  display: none;
+}
+
+input.example-right-align {
+  -moz-appearance: textfield;
+}
+
+.container-form {
+  background: white;
+  padding: 20px 45px 45px 45px;
+  color: black;
+  border-radius: 14px;
+  width: 60%;
+  margin: auto;
+}
+
+
+.mat-form-field,.save-login {
+  width: 100%;
+}
+

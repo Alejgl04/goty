@@ -1,1 +1,34 @@
-<p>login works!</p>
+
+<div class="container mt-5">
+  <div class="text-center mb-4">
+    <h2>Login to Goty</h2>
+    <p>Please fill the follow fields</p>
+  </div>
+  <div class="container-form">
+    <div class="text-center mb-3">
+      <img src="assets/images/angular.png" alt="Game of the year | Goty" width="60" height="60">
+
+    </div>
+    <div class="example-container">
+      <mat-form-field appearance="fill">
+        <mat-label>Enter your email</mat-label>
+        <input matInput placeholder="pat@example.com">
+      </mat-form-field>
+    
+    </div>
+    <div class="example-container">
+      <mat-form-field appearance="fill">
+        <mat-label>Enter your password</mat-label>
+        <input matInput [type]="hide ? 'password' : 'text'">
+        <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
+          <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+        </button>
+      </mat-form-field>
+    </div>
+
+   
+    <div class="example-button-row">
+      <button class="save-login" mat-raised-button color="primary">Login</button>
+    </div>
+  </div>
+</div>

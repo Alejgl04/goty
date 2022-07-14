@@ -9,3 +9,12 @@ html, body {
 hr {
   background-color: grey;
 }
+
+
+@media only screen and (max-width: 600px) {
+  .container-form {
+    width: 100%!important;
+    padding: 20px!important;
+  }
+  
+}
