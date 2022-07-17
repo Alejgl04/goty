@@ -21,4 +21,9 @@ export class NavbarComponent implements OnInit {
 
   }
 
+  logOut(): void {
+    console.log('hi');
+    
+  }
+
 }
