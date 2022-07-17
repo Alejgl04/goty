@@ -4,37 +4,52 @@
     <h2>Welcome to Goty</h2>
     <p>Please fill the follow fields</p>
   </div>
-  <div class="container-form">
-    <div class="text-center mb-3">
-      <img src="assets/images/angular.png" alt="Game of the year | Goty" width="60" height="60">
+  <form 
+  *ngIf="registerForm" 
+  autocomplete="off"
+  [formGroup]="registerForm">
+    <div class="container-form">
+      <div class="text-center mb-3">
+        <img src="assets/images/angular.png" alt="Game of the year | Goty" width="60" height="60">
+  
+      </div>
+      <div class="example-container">
+        <mat-form-field appearance="fill">
+          <mat-label>Enter your name</mat-label>
+          <input matInput type="text" formControlName="name">
+          <mat-error *ngIf="fieldNotValid('email')" class="text-danger">
+            This field <strong>is required</strong>
+          </mat-error>
+        </mat-form-field>
+      </div>
+      <div class="example-container">
+        <mat-form-field appearance="fill">
+          <mat-label>Enter your email</mat-label>
+          <input matInput type="email" placeholder="pat@example.com" formControlName="email">
+          <mat-error *ngIf="fieldNotValid('email')" class="text-danger">
+            This field <strong>is required . It must be a Valid Email </strong> <br>
+          </mat-error>
+        </mat-form-field>
+      
+      </div>
+      <div class="example-container">
+        <mat-form-field appearance="fill">
+          <mat-label>Enter your password</mat-label>
+          <input matInput [type]="hide ? 'password' : 'text'" formControlName="password">
 
+          <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
+            <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+          </button>
+          <mat-error *ngIf="fieldNotValid('password')" class="text-danger">
+            This field <strong>is required</strong>
+          </mat-error>
+        </mat-form-field>
+      </div>
+  
+      <mat-progress-bar mode="indeterminate" *ngIf="loader"></mat-progress-bar>
+      <div class="example-button-row mt-2">
+        <button class="save-register" (click)="saveRegister()" mat-raised-button color="primary"  [disabled]="clicked" clicked = true;>Save</button>
+      </div>
     </div>
-    <div class="example-container">
-      <mat-form-field appearance="fill">
-        <mat-label>Enter your name</mat-label>
-        <input matInput placeholder="pat@example.com">
-      </mat-form-field>
-    </div>
-    <div class="example-container">
-      <mat-form-field appearance="fill">
-        <mat-label>Enter your email</mat-label>
-        <input matInput placeholder="pat@example.com">
-      </mat-form-field>
-    
-    </div>
-    <div class="example-container">
-      <mat-form-field appearance="fill">
-        <mat-label>Enter your password</mat-label>
-        <input matInput [type]="hide ? 'password' : 'text'">
-        <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
-          <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
-        </button>
-      </mat-form-field>
-    </div>
-
-   
-    <div class="example-button-row">
-      <button class="save-register" mat-raised-button color="primary">Save</button>
-    </div>
-  </div>
+  </form>
 </div>
