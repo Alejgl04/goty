@@ -12,12 +12,15 @@
         <a class="nav-link" [routerLink]="['/']">Home</a>
       </li>
       <li class="nav-item" routerLinkActive="active"  [routerLinkActiveOptions]="{exact:true}">
-        <a class="nav-link" [routerLink]="['/goty']">Game of the year</a>
+        <a class="nav-link" [routerLink]="['/goty']" *ngIf="(isLoggedIn | async)">Game of the year</a>
       </li>
       <li class="nav-item" routerLinkActive="active"  [routerLinkActiveOptions]="{exact:true}">
-        <a class="nav-link" [routerLink]="['/register']">Sign up</a>
+        <a class="nav-link" *ngIf="(isLoggedIn | async)">Log out</a>
       </li>
       <li class="nav-item" routerLinkActive="active"  [routerLinkActiveOptions]="{exact:true}">
+        <a class="nav-link" [routerLink]="['/register']" *ngIf="!(isLoggedIn | async)">Sign up</a>
+      </li>
+      <li class="nav-item" routerLinkActive="active" *ngIf="!(isLoggedIn | async)" [routerLinkActiveOptions]="{exact:true}">
         <a class="nav-link" [routerLink]="['/login']">Sign in</a>
       </li>
     </ul>

@@ -40,9 +40,6 @@ export class LoginComponent implements OnInit {
 	}
 
   saveLogin(): void {
-    let errorResponse = [];
-    this.message      = "";
-
     const keys = Object.keys(this.loginForm.controls);
     let controlIndex = 0;
     Object.values(this.loginForm.controls).forEach((control) => {
@@ -61,6 +58,7 @@ export class LoginComponent implements OnInit {
       resp => { 
         this.loader = false;
         if( resp.ok ){
+          this.alertMessage.showMessage( 'Acceso Permitido' );
           setTimeout(() => {
             this.router.navigateByUrl('/goty');
           }, 500);

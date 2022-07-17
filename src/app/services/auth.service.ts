@@ -1,7 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { catchError, map, mapTo, Observable, of, Subject, tap } from 'rxjs';
+import { BehaviorSubject, catchError, map, mapTo, Observable, of, Subject, tap } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { Auth } from '../interfaces/user.interfaces';
 import { User } from '../models/user.model';
@@ -16,7 +16,7 @@ export class AuthService {
   private readonly JWT_TOKEN = 'JWT_TOKEN';
   private readonly REFRESH_TOKEN = 'REFRESH_TOKEN';
   private loggedUser!: string | any;
-  public isUserLoggedIn: Subject<boolean> = new Subject<boolean>();
+  isLoginSubject = new BehaviorSubject<boolean>( this.isLoggedIn() );
 
 
   get userAuth() {
@@ -42,9 +42,9 @@ export class AuthService {
     return this.http.post<Auth>(`${this.baseUrl}/auth/login`, user)
       .pipe(
         tap( resp => {
-          console.log(resp);
           if( resp.ok ) {
             this.doLoginUser(resp.user, resp.token);
+            this.isLoginSubject.next(true);
           }
         }),
         catchError( error => of( error.error ) )
@@ -59,6 +59,10 @@ export class AuthService {
   isLoggedIn() {
     return !!this.getJwtToken();
   }
+
+  isLoggedInSubject() : Observable<boolean> {
+    return this.isLoginSubject.asObservable();
+   }
 
   refreshToken() {
     const headers = new HttpHeaders().set('x-token', this.getRefreshToken() || '' );
@@ -96,7 +100,7 @@ export class AuthService {
   private doLogoutUser() {
     this.loggedUser = null;
     this.removeTokens();
-    this.isUserLoggedIn.next(false);
+    this.isLoginSubject.next(false);
 
   }
 
