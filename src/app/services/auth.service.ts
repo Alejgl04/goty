@@ -1,7 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { catchError, map, mapTo, Observable, of, tap } from 'rxjs';
+import { catchError, map, mapTo, Observable, of, Subject, tap } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { Auth } from '../interfaces/user.interfaces';
 import { User } from '../models/user.model';
@@ -16,6 +16,7 @@ export class AuthService {
   private readonly JWT_TOKEN = 'JWT_TOKEN';
   private readonly REFRESH_TOKEN = 'REFRESH_TOKEN';
   private loggedUser!: string | any;
+  public isUserLoggedIn: Subject<boolean> = new Subject<boolean>();
 
 
   get userAuth() {
@@ -38,14 +39,14 @@ export class AuthService {
   }
 
   login(user: { username: string, password: string }): Observable<Auth> {
-    return this.http.post<Auth>(`${this.baseUrl}/login`, user)
+    return this.http.post<Auth>(`${this.baseUrl}/auth/login`, user)
       .pipe(
         tap( resp => {
+          console.log(resp);
           if( resp.ok ) {
             this.doLoginUser(resp.user, resp.token);
           }
         }),
-        map( resp => resp.ok ),
         catchError( error => of( error.error ) )
       );
   }
@@ -62,7 +63,7 @@ export class AuthService {
   refreshToken() {
     const headers = new HttpHeaders().set('x-token', this.getRefreshToken() || '' );
 
-    return this.http.post<Auth>(`${this.baseUrl}/refresh`, { headers } ).pipe(
+    return this.http.post<Auth>(`${this.baseUrl}/auth/refresh`, { headers } ).pipe(
       tap(( resp ) => {
       this.doLoginUser(resp.user, resp.token);
       this.storeJwtToken(resp.token);
@@ -70,7 +71,7 @@ export class AuthService {
   }
 
   keepLogin(): Observable<boolean> {
-    const url  = `${this.baseUrl}/refresh`;
+    const url  = `${this.baseUrl}/auth/refresh`;
     const headers = new HttpHeaders().set('x-token', this.getJwtToken() );
 
     return this.http.get<Auth>( url, { headers } ).pipe(
@@ -78,7 +79,6 @@ export class AuthService {
         this.doLoginUser(resp.user, resp.token);
         return resp.ok;
       }),
-      catchError( err => of(false) )
     )
   }
 
@@ -96,6 +96,8 @@ export class AuthService {
   private doLogoutUser() {
     this.loggedUser = null;
     this.removeTokens();
+    this.isUserLoggedIn.next(false);
+
   }
 
   private getRefreshToken() {

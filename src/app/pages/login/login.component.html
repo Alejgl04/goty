@@ -4,44 +4,55 @@
     <h2>Login to Goty</h2>
     <p>Please fill the follow fields</p>
   </div>
-  <div class="container-form">
-    <div class="text-center mb-3">
-      <img src="assets/images/angular.png" alt="Game of the year | Goty" width="60" height="60">
+  <form action="" *ngIf="loginForm" [formGroup]="loginForm" autocomplete="off">
+    <div class="container-form">
+      <div class="text-center mb-3">
+        <img src="assets/images/angular.png" alt="Game of the year | Goty" width="60" height="60">
+  
+      </div>
+      <div class="example-container">
+        <mat-form-field appearance="fill">
+          <mat-label>Enter your email *</mat-label>
+          <input matInput placeholder="pat@example.com" type="email" formControlName="email">
+          <mat-error *ngIf="fieldNotValid('email')" class="text-danger">
+            This field <strong>is required . It must be a Valid Email </strong> <br>
+          </mat-error>
+        </mat-form-field>
+      
+      </div>
+      <div class="example-container">
+        <mat-form-field appearance="fill">
+          <mat-label>Enter your password</mat-label>
+          <input matInput [type]="hide ? 'password' : 'text'" formControlName="password">
 
+          <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
+            <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+          </button>
+          <mat-error *ngIf="fieldNotValid('password')" class="text-danger">
+            This field <strong>is required</strong>
+          </mat-error>
+        </mat-form-field>
+      </div>
+      <mat-progress-bar mode="indeterminate" *ngIf="loader"></mat-progress-bar>
+
+      <div class="example-button-row mt-2">
+        <button class="save-login" (click)="saveLogin()" mat-raised-button color="primary"  [disabled]="clicked" clicked = true;>Login</button>
+      </div>
+      <div class="mt-2 text-center">
+        <div id="g_id_onload"
+           data-client_id="736506785330-4gdh43dddg9bd1gjkohdfi1iu1puclr2.apps.googleusercontent.com"
+           data-callback="handleCredentialResponse"
+           data-auto_prompt="false">
+      </div>
+      <div class="g_id_signin"
+           data-type="standard"
+           data-size="large"
+           data-theme="outline"
+           data-text="sign_in_with"
+           data-shape="rectangular"
+           data-logo_alignment="left">
+      </div>
+      </div>
     </div>
-    <div class="example-container">
-      <mat-form-field appearance="fill">
-        <mat-label>Enter your email</mat-label>
-        <input matInput placeholder="pat@example.com">
-      </mat-form-field>
-    
-    </div>
-    <div class="example-container">
-      <mat-form-field appearance="fill">
-        <mat-label>Enter your password</mat-label>
-        <input matInput [type]="hide ? 'password' : 'text'">
-        <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
-          <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
-        </button>
-      </mat-form-field>
-    </div>
-    <div class="example-button-row">
-      <button class="save-login" mat-raised-button color="primary">Login</button>
-    </div>
-    <div class="mt-2 text-center">
-      <div id="g_id_onload"
-         data-client_id="736506785330-4gdh43dddg9bd1gjkohdfi1iu1puclr2.apps.googleusercontent.com"
-         data-callback="handleCredentialResponse"
-         data-auto_prompt="false">
-    </div>
-    <div class="g_id_signin"
-         data-type="standard"
-         data-size="large"
-         data-theme="outline"
-         data-text="sign_in_with"
-         data-shape="rectangular"
-         data-logo_alignment="left">
-    </div>
-    </div>
-  </div>
+  </form>
 </div>
