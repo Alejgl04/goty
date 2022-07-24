@@ -1,33 +1,81 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, AfterViewInit, ViewChild, ElementRef,NgZone } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AlertsService } from 'src/app/services/alerts.service';
 import { AuthService } from 'src/app/services/auth.service';
+
+declare const google: any;
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss']
 })
-export class LoginComponent implements OnInit {
-  hide: boolean = true;
-  loader:  boolean = false;
-  clicked: boolean = false;
-  message: string = '';
+export class LoginComponent implements OnInit, AfterViewInit {
+  @ViewChild('googleBtn') googleBtn!: ElementRef;
+
+  hide      : boolean  = true;
+  loader    :  boolean = false;
+  clicked   : boolean  = false;
+  messageErr: string   = '';
   loginForm!: FormGroup;
+
 
   constructor(
     private formBuilder: FormBuilder,
     private authService: AuthService,
     private alertMessage: AlertsService,
-    private router: Router
+    private router: Router,
+    private ngZone: NgZone
   ) { }
 
+
+  ngAfterViewInit(): void {
+    this.googleInit();
+  }
+
   ngOnInit(): void {
-    this.loginForm = this.formBuilder.group({
-      email:['',[ Validators.required, Validators.email ]],
-      password:['',[ Validators.required]],  
+    this.ngZone.run(() => {
+
+      this.loginForm = this.formBuilder.group({
+        email:['',[ Validators.required, Validators.email ]],
+        password:['',[ Validators.required]],  
+      });
     });
+  }
+
+  googleInit() {
+    google.accounts.id.initialize({
+      client_id: "736506785330-4gdh43dddg9bd1gjkohdfi1iu1puclr2.apps.googleusercontent.com",
+      callback: ( response:any ) => this.handleCredentialResponse(response)
+    });
+    google.accounts.id.renderButton(
+      // document.getElementById("buttonDiv"),
+      this.googleBtn.nativeElement,
+      { theme: "outline", size: "large" }  // customization attributes
+    );
+  }
+
+  handleCredentialResponse( response: any ) {
+    let errorResponse = [];
+    this.messageErr      = "";
+    this.authService.loginGoogle( response.credential ).subscribe(
+      resp => {
+        if (!resp.errors) {
+          this.ngZone.run( () => {
+            this.router.navigateByUrl('/goty');
+          });
+        } else {
+          this.ngZone.run( () => {
+            errorResponse = resp.errors;
+            errorResponse.forEach((element:any) => {
+              this.messageErr += `${ element.msg }. `;
+              this.alertMessage.showMessage( this.messageErr );
+            });
+          });
+        }
+      }
+    )
   }
 
   fieldNotValid( value:string): boolean {
@@ -58,10 +106,7 @@ export class LoginComponent implements OnInit {
       resp => { 
         this.loader = false;
         if( resp.ok ){
-          this.alertMessage.showMessage( 'Acceso Permitido' );
-          setTimeout(() => {
-            this.router.navigateByUrl('/goty');
-          }, 500);
+          this.router.navigateByUrl('/goty');
         }
         else {
           this.clicked = false;
@@ -69,6 +114,5 @@ export class LoginComponent implements OnInit {
         }
       },
     );
-
   }
 }

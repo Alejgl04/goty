@@ -12,7 +12,6 @@ import { SocketIoModule, SocketIoConfig } from 'ngx-socket-io';
 const config: SocketIoConfig = { url:`${environment.url}`, options: {} };
 
 import { AppComponent } from './app.component';
-import { ComponentesModule } from './components/componentes.module';
 
 import { HomeComponent } from './pages/home/home.component';
 import { GotyComponent } from './pages/goty/goty.component';
@@ -20,6 +19,7 @@ import { environment } from 'src/environments/environment';
 import { RegisterComponent } from './pages/register/register.component';
 import { LoginComponent } from './pages/login/login.component';
 import { TokenInterceptor } from './interceptors/interceptors.service';
+import { ComponentesModule } from './components/componentes.module';
 
 
 @NgModule({

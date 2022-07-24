@@ -7,15 +7,12 @@
     <span class="navbar-toggler-icon"></span>
   </button>
   <div class="collapse navbar-collapse" id="navbarNav">
-    <ul class="navbar-nav">
+    <ul class="navbar-nav" style="flex: inherit;">
       <li class="nav-item" routerLinkActive="active"  [routerLinkActiveOptions]="{exact:true}">
         <a class="nav-link" [routerLink]="['/']">Home</a>
       </li>
       <li class="nav-item" routerLinkActive="active"  [routerLinkActiveOptions]="{exact:true}">
         <a class="nav-link" [routerLink]="['/goty']" *ngIf="(isLoggedIn | async)">Game of the year</a>
-      </li>
-      <li class="nav-item" routerLinkActive="active"  [routerLinkActiveOptions]="{exact:true}">
-        <button class="save-login" (click)="logOut()" mat-raised-button color="primary" *ngIf="(isLoggedIn | async)">log out</button>
       </li>
       <li class="nav-item" routerLinkActive="active"  [routerLinkActiveOptions]="{exact:true}">
         <a class="nav-link" [routerLink]="['/register']" *ngIf="!(isLoggedIn | async)">Sign up</a>
@@ -24,5 +21,15 @@
         <a class="nav-link" [routerLink]="['/login']">Sign in</a>
       </li>
     </ul>
+    <div class="">
+      <button mat-mini-fab color="primary" class="mr-2" [matMenuTriggerFor]="menu" *ngIf="(isLoggedIn | async)">
+        <span>{{ userLogin.name | userNameLogin }}</span>
+      </button>
+      <mat-menu #menu="matMenu">
+        <button mat-menu-item>Item 1</button>
+        <button mat-menu-item>Item 2</button>
+      </mat-menu>
+      <button class="save-login" (click)="logOut()" mat-raised-button color="primary" *ngIf="(isLoggedIn | async)">Log out</button>
+    </div>
   </div>
 </nav>

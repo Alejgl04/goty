@@ -12,7 +12,7 @@
       </div>
       <div class="example-container">
         <mat-form-field appearance="fill">
-          <mat-label>Enter your email *</mat-label>
+          <mat-label>Enter your email</mat-label>
           <input matInput placeholder="pat@example.com" type="email" formControlName="email">
           <mat-error *ngIf="fieldNotValid('email')" class="text-danger">
             This field <strong>is required . It must be a Valid Email </strong> <br>
@@ -38,20 +38,10 @@
       <div class="example-button-row mt-2">
         <button class="save-login" (click)="saveLogin()" mat-raised-button color="primary"  [disabled]="clicked" clicked = true;>Login</button>
       </div>
-      <div class="mt-2 text-center">
-        <div id="g_id_onload"
-           data-client_id="736506785330-4gdh43dddg9bd1gjkohdfi1iu1puclr2.apps.googleusercontent.com"
-           data-callback="handleCredentialResponse"
-           data-auto_prompt="false">
+      <div class="mt-2 text-center" style="display: flex;justify-content: center;">
+        <div #googleBtn id="buttonDiv">
       </div>
-      <div class="g_id_signin"
-           data-type="standard"
-           data-size="large"
-           data-theme="outline"
-           data-text="sign_in_with"
-           data-shape="rectangular"
-           data-logo_alignment="left">
-      </div>
+
       </div>
     </div>
   </form>

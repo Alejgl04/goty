@@ -17,7 +17,6 @@ export class GotyComponent implements OnInit {
   ngOnInit(): void {
     this.gameService.getGoty()
     .subscribe( (resp) => {
-      console.log( resp );
       this.loading = false;
       this.games = resp.goty;
     })

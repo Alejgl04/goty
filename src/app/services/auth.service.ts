@@ -1,10 +1,12 @@
+import { Injectable, NgZone } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Injectable } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
-import { BehaviorSubject, catchError, map, mapTo, Observable, of, Subject, tap } from 'rxjs';
+import { Router } from '@angular/router';
+import { BehaviorSubject, catchError, map, Observable, of, tap } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { Auth } from '../interfaces/user.interfaces';
 import { User } from '../models/user.model';
+
+declare const google: any;
 
 @Injectable({
   providedIn: 'root'
@@ -18,7 +20,9 @@ export class AuthService {
   private loggedUser!: string | any;
   isLoginSubject = new BehaviorSubject<boolean>( this.isLoggedIn() );
 
-
+  get userLoginEmail() {
+    return this.loggedUser;
+  }
   get userAuth() {
     return { ...this.userLog };
   }
@@ -26,7 +30,7 @@ export class AuthService {
   constructor(
     private http: HttpClient,
     private router: Router,
-    private route: ActivatedRoute
+    private ngZone: NgZone
   ) { }
 
   register( user:User ): Observable<Auth> {
@@ -51,8 +55,27 @@ export class AuthService {
       );
   }
 
+  loginGoogle( token: string ): Observable<Auth> {
+    return this.http.post<Auth>(`${this.baseUrl}/auth/google`, {id_token: token} )
+    .pipe(
+      tap( resp => {
+        if( resp.ok ) {
+          this.doLoginUser(resp.user, resp.token);
+          this.isLoginSubject.next(true);
+          this.router.navigateByUrl('/goty');
+        }
+      }),
+      catchError( error => of( error.error ) )
+    );
+  }
+
   logout() {
     this.doLogoutUser();
+    this.ngZone.run(() => {
+      google.accounts.id.revoke(this.userLog.email, () => {
+          this.router.navigateByUrl('/login');
+        });
+      });
     return true;
   }
 
@@ -99,8 +122,8 @@ export class AuthService {
 
   private doLogoutUser() {
     this.loggedUser = null;
-    this.removeTokens();
     this.isLoginSubject.next(false);
+    this.removeTokens();
 
   }
 

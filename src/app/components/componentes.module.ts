@@ -5,11 +5,14 @@ import { GraphicBarHorizontalComponent } from './graphic-bar-horizontal/graphic-
 import { RouterModule } from '@angular/router';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MaterialModule } from '../material/material.module';
+import { UserNameLoginPipe } from '../pipes/user-name-login.pipe';
 
 @NgModule({
   declarations: [
     NavbarComponent,
     GraphicBarHorizontalComponent,
+    UserNameLoginPipe
   ],
   exports: [
     NavbarComponent,
@@ -19,6 +22,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
   imports: [
     CommonModule,
     RouterModule,
+    MaterialModule,
     NgxChartsModule,
     BrowserAnimationsModule,
   ]

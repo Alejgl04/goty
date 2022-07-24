@@ -1,12 +1,14 @@
 <h2 class="text-center">¡ Game of the year !</h2>
 <hr>
-<div class="row">
-  <div class="col">
-    <div style="justify-content: center;display: flex;" *ngIf="loading">
-      <mat-spinner></mat-spinner>
-    </div>
-    <div *ngIf="!loading">
-      <app-graphic-bar-horizontal [results]="games"></app-graphic-bar-horizontal>
+<div class="container">
+  <div class="row">
+    <div class="col">
+      <div style="justify-content: center;display: flex;" *ngIf="loading">
+        <mat-spinner></mat-spinner>
+      </div>
+      <div *ngIf="!loading">
+        <app-graphic-bar-horizontal [results]="games"></app-graphic-bar-horizontal>
+      </div>
     </div>
   </div>
 </div>
