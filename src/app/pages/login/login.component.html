@@ -39,7 +39,16 @@
         <button class="save-login" (click)="saveLogin()" mat-raised-button color="primary"  [disabled]="clicked" clicked = true;>Login</button>
       </div>
       <div class="mt-2 text-center" style="display: flex;justify-content: center;">
-        <div #googleBtn id="buttonDiv">
+        <div 
+          #googleBtn 
+         data-type="standard"
+         data-size="large"
+         data-theme="outline"
+         data-text="sign_in_with"
+         data-shape="rectangular"
+         data-logo_alignment="left"
+         data-auto_prompt="false">
+         
       </div>
 
       </div>
