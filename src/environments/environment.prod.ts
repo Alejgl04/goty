@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  url: 'https://goty-production.up.railway.app'
+  url: 'https://whale-app-f5jos.ondigitalocean.app'
 };
